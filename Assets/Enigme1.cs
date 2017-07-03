@@ -33,8 +33,8 @@ public class Enigme1 : MonoBehaviour
         if (responseok)
         {
             GUI.DrawTexture(new Rect(350, 50, 80, 80), okTexture, ScaleMode.ScaleAndCrop);
-            //System.Threading.Thread.Sleep(000);
-            //active = false;
+            System.Threading.Thread.Sleep(2000);
+            active = false;
         }
 
 
