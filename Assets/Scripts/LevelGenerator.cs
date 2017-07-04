@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 	public Map[] mapObjects;
-	public ColorToSprite[] colorMappings;
 	public IntToSprite[] backgroundMappings;
 	public IntToSprite[] interactableMappings;
 	public int width;
@@ -92,40 +91,4 @@ public class LevelGenerator : MonoBehaviour {
 			}
 		}
 	}
-
-//	void GenerateScreen (Texture2D texture){
-//		for (int i = 0; i < texture.width; i++) {
-//			for (int j = 0; j < texture.height; j++) {
-//				GenerateTile (i, j, texture);
-//			}
-//		}
-//	}
-//
-//	void GenerateTile(int x, int y, Texture2D texture){
-//		Color pixelColor = texture.GetPixel (x, y);
-//		if (pixelColor.a != 0) {
-//			foreach (ColorToSprite colormapping in colorMappings) {
-//				Color color = colormapping.color;
-//
-//				if(color.Equals(pixelColor)){
-//					Quaternion rotation;
-//					float angle = 0f;
-//					Vector2 position = new Vector2 (x, y);
-//					if (colormapping.sprite.name == "Door") {
-//						if (x == 0) {
-//							angle = 90f;
-//						} else if (x == texture.width - 1) {
-//							angle = -90f;
-//						} else if (y == 0) {
-//							angle = 180f;
-//						} else if (y == texture.height - 1) {
-//							angle = 0f;
-//						} 
-//					}
-//					rotation = Quaternion.Euler (0, 0, angle);
-//					Instantiate(colormapping.sprite, position, rotation,transform);
-//				}
-//			}
-//		}
-//	}
 }
