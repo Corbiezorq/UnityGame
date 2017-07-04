@@ -162,4 +162,9 @@ public class MonsterController : MonoBehaviour
             moveOk = false;
     }
 
+    public bool getMoveOk()
+    {
+        return moveOk;
+    }
+
 }
