@@ -13,6 +13,9 @@ public class LevelGenerator : MonoBehaviour {
 		this.width = 10;
 		this.height = 8;
 		Map map = GetMap (0, 0);
+		if (map == null) {
+			map = new Map(new int[80], new Interactable[0], 0, 0);
+		}
 		GenerateMap(map);
 	}
 
@@ -21,9 +24,11 @@ public class LevelGenerator : MonoBehaviour {
 	}
 		
 	Map GetMap(int x, int y){
-		foreach (Map map in this.mapObjects) {
-			if (map.x == x && map.y == y) {
-				return map;
+		if (this.mapObjects.Length > 0) {
+			foreach (Map map in this.mapObjects) {
+				if (map.x == x && map.y == y) {
+					return map;
+				}
 			}
 		}
 		return null;
