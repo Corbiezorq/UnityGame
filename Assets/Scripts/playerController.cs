@@ -4,6 +4,7 @@ using System.Collections;
 public class playerController : MonoBehaviour
 {
     private Animator animator;
+    private bool moveOk = true;
 
     // Use this for initialization
     void Start()
@@ -17,9 +18,12 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float v = Input.GetAxis("Vertical");
-        float h = Input.GetAxis("Horizontal");
-        ManageMovement(h, v);
+        if (moveOk == true)
+        {
+            float v = Input.GetAxis("Vertical");
+            float h = Input.GetAxis("Horizontal");
+            ManageMovement(h, v);
+        }
     }
 
     void ManageMovement(float horizontal, float vertical)
@@ -59,5 +63,13 @@ public class playerController : MonoBehaviour
                 animator.SetInteger("direction", 4);
             }
         }
+    }
+
+    public void setMoveOk(int move)
+    {
+        if (move == 1)
+            moveOk = true;
+        else
+            moveOk = false;
     }
 }

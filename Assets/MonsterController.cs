@@ -5,6 +5,7 @@ public class MonsterController : MonoBehaviour
 {
     private Animator animator;
     private bool detecte = false;
+    private bool moveOk = true;
     public GameObject hand;
 
     // Use this for initialization
@@ -22,22 +23,24 @@ public class MonsterController : MonoBehaviour
     {
         for (;;)
         {
-            if (detecte == false)
+            if (moveOk == true)
             {
-                int dir = Random.Range(1, 5);
-                ManageMovement(dir);
-                yield return new WaitForSeconds(1f);
-            }
-            else
-            {
-                float player_x = hand.transform.position.x;
-                float player_y = hand.transform.position.y;
+                if (detecte == false)
+                {
+                    int dir = Random.Range(1, 5);
+                    ManageMovement(dir);
+                    yield return new WaitForSeconds(1f);
+                }
+                else
+                {
+                    float player_x = hand.transform.position.x;
+                    float player_y = hand.transform.position.y;
 
-                FollowMovement(player_x, player_y);
-                
-                yield return new WaitForSeconds(0.001F);
-            }
+                    FollowMovement(player_x, player_y);
 
+                    yield return new WaitForSeconds(0.001F);
+                }
+            }
         }
     }
 
@@ -149,6 +152,14 @@ public class MonsterController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         detecte = false;
+    }
+
+    public void setMoveOk(int move)
+    {
+        if (move == 1)
+            moveOk = true;
+        else
+            moveOk = false;
     }
 
 }
