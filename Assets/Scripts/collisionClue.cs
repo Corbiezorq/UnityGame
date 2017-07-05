@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+public class collisionClue : MonoBehaviour {
 
-public class colisiondoor : MonoBehaviour {
-
-    public GameObject Enigme1;
-    
+    public GameObject ClueWindow;
+    public string texte;
 
     // Use this for initialization
     void Start () {
@@ -20,14 +17,15 @@ public class colisiondoor : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.name == "player")
+        if (col.gameObject.name == "player")
         {
             //start pause
             GameObject x = GameObject.Find("monster");
             x.GetComponent<MonsterController>().setMoveOk(0);
             col.gameObject.GetComponent<playerController>().setMoveOk(0);
-            Instantiate(Enigme1);       
+
+            GameObject y = Instantiate(ClueWindow);
+            y.GetComponent<clueWindow>().setTexte(texte);
         }
     }
-
 }
