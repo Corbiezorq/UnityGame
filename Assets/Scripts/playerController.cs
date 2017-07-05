@@ -24,6 +24,18 @@ public class playerController : MonoBehaviour
             float h = Input.GetAxis("Horizontal");
             ManageMovement(h, v);
         }
+        else
+        {
+            stopMovement();
+        }
+    }
+
+    void stopMovement()
+    {
+        animator.SetBool("moving", false);
+
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
     }
 
     void ManageMovement(float horizontal, float vertical)
@@ -68,8 +80,19 @@ public class playerController : MonoBehaviour
     public void setMoveOk(int move)
     {
         if (move == 1)
+        {
             moveOk = true;
-        else
+        }
+
+        else if (move == 0)
+        {
             moveOk = false;
+        }
+
+    }
+
+    public bool getMoveOk()
+    {
+        return moveOk;
     }
 }

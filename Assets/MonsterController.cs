@@ -6,12 +6,14 @@ public class MonsterController : MonoBehaviour
     private Animator animator;
     private bool detecte = false;
     private bool moveOk = true;
-    public GameObject hand;
+    public GameObject player;
+    public GameObject monster;
 
     // Use this for initialization
     void Start()
     {
-        hand = GameObject.Find("player");
+        player = GameObject.Find("player");
+        monster = GameObject.Find("monster");
         animator = (Animator)this.GetComponent(typeof(Animator));
         StartCoroutine("DoCheck");
     }
@@ -21,28 +23,31 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator DoCheck()
     {
-        if (moveOk == true)
-        {
-            for (;;)
+        for (;;)
         {
             
-                if (detecte == false)
-                {
-                    int dir = Random.Range(1, 5);
-                    ManageMovement(dir);
-                    yield return new WaitForSeconds(1f);
-                }
-                else
-                {
-                    float player_x = hand.transform.position.x;
-                    float player_y = hand.transform.position.y;
+            if (detecte == false && moveOk == true)
+            {
+                int dir = Random.Range(1, 5);
+                ManageMovement(dir);
+                yield return new WaitForSeconds(1F);
+            }
+            else if(detecte == true && moveOk == true)
+            {
+                //dynamicColorObject.monster.sharedMaterial.color = Color.red;
+                float player_x = player.transform.position.x;
+                float player_y = player.transform.position.y;
 
-                    FollowMovement(player_x, player_y);
-
-                    yield return new WaitForSeconds(0.001F);
-                }
+                FollowMovement(player_x, player_y);
+                yield return new WaitForSeconds(0.001F);
+            }
+            else if (moveOk == false)
+            {
+                stopMovement();
+                yield return new WaitForSeconds(1F);
             }
         }
+         
     }
 
     void FollowMovement(float player_x, float player_y)
@@ -109,6 +114,14 @@ public class MonsterController : MonoBehaviour
 
     }
 
+    void stopMovement()
+    {
+        animator.SetBool("moving", false);
+
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+    }
+
     void animateWalk(int dir)
     {
         if (animator)
@@ -158,9 +171,15 @@ public class MonsterController : MonoBehaviour
     public void setMoveOk(int move)
     {
         if (move == 1)
+        {
             moveOk = true;
-        else
+        }
+            
+        else if (move == 0)
+        {
             moveOk = false;
+        }
+            
     }
 
     public bool getMoveOk()
