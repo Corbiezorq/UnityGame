@@ -23,9 +23,9 @@ public class colisiondoor : MonoBehaviour {
         if(col.gameObject.name == "player")
         {
             //start pause
-            GameObject x = GameObject.Find("monster");
-            x.GetComponent<MonsterController>().setMoveOk(0);
-            col.gameObject.GetComponent<playerController>().setMoveOk(0);
+            GameObject x = GameObject.Find("Pause");
+            x.GetComponent<pauseController>().setPause(1);
+
             Instantiate(Enigme1);       
         }
     }

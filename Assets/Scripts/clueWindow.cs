@@ -24,10 +24,8 @@ public class clueWindow : MonoBehaviour
         if (GUI.Button(new Rect(200, 90, 100, 40), "Quitter"))
         {
             //end pause
-            GameObject x = GameObject.Find("monster");
-            x.GetComponent<MonsterController>().setMoveOk(1);
-            GameObject y = GameObject.Find("player");
-            y.GetComponent<playerController>().setMoveOk(1);
+            GameObject x = GameObject.Find("Pause");
+            x.GetComponent<pauseController>().setPause(0);
 
             active = false;
         }
