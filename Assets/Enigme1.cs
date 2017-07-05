@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Enigme1 : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class Enigme1 : MonoBehaviour
             //end pause
             GameObject x = GameObject.Find("Pause");
             x.GetComponent<pauseController>().setPause(0);
+
+            SceneManager.LoadScene("Jeremy2");
         }
 
 
