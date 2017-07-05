@@ -8,6 +8,10 @@ public class MonsterController : MonoBehaviour
     private bool moveOk = true;
     public GameObject player;
     public GameObject monster;
+    private Color original_color;
+
+    // Movement speed
+    public float speed = 1;
 
     // Use this for initialization
     void Start()
@@ -15,12 +19,10 @@ public class MonsterController : MonoBehaviour
         player = GameObject.Find("player");
         monster = GameObject.Find("monster");
         animator = (Animator)this.GetComponent(typeof(Animator));
+        original_color = GetComponent<SpriteRenderer>().color;
         StartCoroutine("DoCheck");
     }
-
-    // Movement speed
-    public float speed = 1;
-
+    
     IEnumerator DoCheck()
     {
         for (;;)
@@ -28,13 +30,14 @@ public class MonsterController : MonoBehaviour
             
             if (detecte == false && moveOk == true)
             {
+                GetComponent<SpriteRenderer>().color = original_color;
                 int dir = Random.Range(1, 5);
                 ManageMovement(dir);
                 yield return new WaitForSeconds(1F);
             }
             else if(detecte == true && moveOk == true)
             {
-                //dynamicColorObject.monster.sharedMaterial.color = Color.red;
+                GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 1f);
                 float player_x = player.transform.position.x;
                 float player_y = player.transform.position.y;
 
@@ -132,7 +135,6 @@ public class MonsterController : MonoBehaviour
 
     void animateFollow(int dirr)
     {
-        Debug.Log(dirr);
         if (animator)
         {
             if ( dirr == 1 )

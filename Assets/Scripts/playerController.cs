@@ -5,11 +5,15 @@ public class playerController : MonoBehaviour
 {
     private Animator animator;
     private bool moveOk = true;
+    public GameObject monster;
+    private int vie;
 
     // Use this for initialization
     void Start()
     {
+        monster = GameObject.Find("monster");
         animator = (Animator)this.GetComponent(typeof(Animator));
+        vie = 3;
     }
 
     // Movement speed
@@ -74,6 +78,14 @@ public class playerController : MonoBehaviour
             {
                 animator.SetInteger("direction", 4);
             }
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject == monster)
+        {
+            vie = vie - 1;
         }
     }
 
