@@ -10,21 +10,54 @@ public class pauseController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        player = GameObject.Find("player");
-        monster = GameObject.Find("monster");
+        if (GameObject.Find("player") != null)
+        {
+            player = GameObject.Find("player");
+        }
+        if (GameObject.Find("monster") != null)
+        {
+            monster = GameObject.Find("monster");
+        } 
     }
 
     // Update is called once per frame
     void Update () {
 		if(pause == true)
         {
-            player.GetComponent<playerController>().setMoveOk(0);
-            monster.GetComponent<MonsterController>().setMoveOk(0);
+            if (GameObject.Find("player") != null)
+            {
+                if (player.GetComponent<playerController>())
+                {
+                    player.GetComponent<playerController>().setMoveOk(0);
+                }
+            }
+
+            if (GameObject.Find("monster") != null)
+            {
+                if (monster.GetComponent<MonsterController>())
+                {
+                    monster.GetComponent<MonsterController>().setMoveOk(0);
+                }
+            }
+            
         }
         else
         {
-            player.GetComponent<playerController>().setMoveOk(1);
-            monster.GetComponent<MonsterController>().setMoveOk(1);
+            if (GameObject.Find("player") != null)
+            {
+                if (player.GetComponent<playerController>())
+                {
+                    player.GetComponent<playerController>().setMoveOk(1);
+                }
+            }
+
+            if (GameObject.Find("monster") != null)
+            {
+                if (monster.GetComponent<MonsterController>())
+                {
+                    monster.GetComponent<MonsterController>().setMoveOk(1);
+                }
+            }
         }
 	}
 
