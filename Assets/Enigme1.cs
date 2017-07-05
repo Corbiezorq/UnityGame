@@ -33,8 +33,12 @@ public class Enigme1 : MonoBehaviour
         if (responseok)
         {
             GUI.DrawTexture(new Rect(350, 50, 80, 80), okTexture, ScaleMode.ScaleAndCrop);
-            //System.Threading.Thread.Sleep(2000);
-            //active = false;
+            active = false;
+            //end pause
+            GameObject x = GameObject.Find("monster");
+            x.GetComponent<MonsterController>().setMoveOk(1);
+            GameObject y = GameObject.Find("player");
+            y.GetComponent<playerController>().setMoveOk(1);
         }
 
 
@@ -59,6 +63,11 @@ public class Enigme1 : MonoBehaviour
         if (GUI.Button(new Rect(160, 90, 100, 40), "Quitter"))
         {
             active = false;
+            //end pause
+            GameObject x = GameObject.Find("monster");
+            x.GetComponent<MonsterController>().setMoveOk(1);
+            GameObject y = GameObject.Find("player");
+            y.GetComponent<playerController>().setMoveOk(1);
         }
 
         for (i = 0; i < 10; i++)
