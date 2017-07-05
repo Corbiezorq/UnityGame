@@ -21,10 +21,11 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator DoCheck()
     {
-        for (;;)
+        if (moveOk == true)
         {
-            if (moveOk == true)
-            {
+            for (;;)
+        {
+            
                 if (detecte == false)
                 {
                     int dir = Random.Range(1, 5);
