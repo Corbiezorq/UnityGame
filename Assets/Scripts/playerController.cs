@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+[RequireComponent(typeof(AudioSource))]
 
 public class playerController : MonoBehaviour
 {
@@ -7,10 +8,13 @@ public class playerController : MonoBehaviour
     private bool moveOk = true;
     public GameObject monster;
     private int vie;
+    public AudioClip impact;
+    AudioSource audio;
 
     // Use this for initialization
     void Start()
     {
+        audio = GetComponent<AudioSource>();
         monster = GameObject.Find("monster");
         animator = (Animator)this.GetComponent(typeof(Animator));
         vie = 3;
@@ -86,6 +90,8 @@ public class playerController : MonoBehaviour
         if (col.gameObject == monster)
         {
             vie = vie - 1;
+            audio.Play();
+            Debug.Log(vie);
         }
     }
 
