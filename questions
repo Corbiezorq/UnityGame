@@ -1,0 +1,7 @@
+-comment dire que telle porte mene à tel endroit sachant qu'elles sont générées en random? 
+-dans ce cas les maps auront une position pour etre générée dans l'espace de maniere cohérente
+-générer tous les lvl au début?
+-chaque objet collectible aura un script qui se lancera, selon le type (une clé aura un script qui ouvrira une porte, une potion augmentera les pv du joueur, une arme sera ajoutée à l'inventaire)
+-inventaire pour le joueur?(pas prioritaire)
+-essayer de mettre en commun ce qui a été fait jusqu'a présent, et d'avoir un code propre pour continuer sur de bonnes bases
+-afficher un backg
