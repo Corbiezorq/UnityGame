@@ -4,25 +4,43 @@ using UnityEngine;
 
 public class Collision : MonoBehaviour {
 	public bool colliding = false;
+	public GameObject player;
+	public GameObject LevelGenerator;
+	public LevelGenerator lg;
 
-	// Use this for initialization
-
+	void Start(){
+		LevelGenerator = GameObject.Find ("LevelGenerator");
+		lg = LevelGenerator.GetComponent<LevelGenerator> ();
+		this.player = this.gameObject;
+	}
 	void OnTriggerEnter2D(Collider2D collider){
+		
 		if (collider.gameObject.tag == "Collectable") {
-//			collider.gameObject.GetComponent<Collectable>().Collect();
-			Interactable interactable = collider.gameObject.GetComponent<Interactable>();
+			int length = this.lg.mapObjects [this.lg.GetMapIndex (this.lg.currentMap)].interactables.Length;
+			for(int i = 0; i < this.lg.mapObjects[this.lg.GetMapIndex (this.lg.currentMap)].interactables.Length; i++){
+				if (this.lg.mapObjects [this.lg.GetMapIndex (this.lg.currentMap)].interactables [i] != null) {
+					if (this.lg.mapObjects[this.lg.GetMapIndex (this.lg.currentMap)].interactables[i].x == collider.gameObject.transform.position.x && 
+						this.lg.mapObjects[this.lg.GetMapIndex (this.lg.currentMap)].interactables[i].y == collider.gameObject.transform.position.y) {
+						this.lg.mapObjects[this.lg.GetMapIndex (this.lg.currentMap)].interactables[i] = null;
+						break;
+					}
+				}
+			}
 			Destroy (collider.gameObject);
 		}
 
 		if (collider.gameObject.tag == "Door") {
-			if (!this.gameObject.GetComponent<PlayerMovement> ().door) {
-				this.gameObject.GetComponent<PlayerMovement> ().door = true;
+			if (!this.player.GetComponent<PlayerMovement> ().door) {
+				this.player.GetComponent<PlayerMovement> ().door = true;
 				DoorData door = collider.gameObject.GetComponent<DoorData>();
-				this.gameObject.transform.position = new Vector3 (door.target.x, door.target.y, this.gameObject.transform.position.z);
-				GameObject LevelGenerator = GameObject.Find ("LevelGenerator");
-				LevelGenerator lg = LevelGenerator.GetComponent<LevelGenerator> ();
-				DeleteChildren (LevelGenerator);
-				lg.GenerateMap (lg.mapObjects[door.target.map]);
+				int x = door.type == 1 ? -1 : (door.type == 2? 1 : 0);
+				int y = door.type == 3 ? -1 : (door.type == 4? 1 : 0);
+				Vector3 vector = new Vector3 (x, y, 0);
+				this.player.transform.position += vector;
+				this.player.GetComponent<PlayerMovement>().ClampPosition ();
+				DeleteChildren (this.LevelGenerator);
+				this.lg.currentMap = door.map;
+				this.lg.GenerateMap (this.lg.mapObjects[this.lg.GetMapIndex (this.lg.currentMap)]);
 			}
 		}
 	}
@@ -43,6 +61,9 @@ public class Collision : MonoBehaviour {
 		for (int i = 0; i < childCount; i++) {
 			Destroy (obj.transform.GetChild(i).gameObject);
 		}
+	}
+
+	void EnterDoor(){
 	}
 
 }

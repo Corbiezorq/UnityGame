@@ -6,8 +6,15 @@ public class PlayerMovement : MonoBehaviour {
 	public float speed = 3f;
 	public bool door = false;
 	// Use this for initialization
-	void Start () {
-		
+	public void ClampPosition () {
+		float x = this.transform.position.x;
+		float y = this.transform.position.y;
+
+		x = x < 0 ? x + 9 : x;
+		x = x > 9 ? x - 9 : x;
+		y = y < 0 ? y + 7 : y;
+		y = y > 7 ? y - 7 : y;
+		this.transform.position = new Vector3 (x, y, 0);
 	}
 	
 	// Update is called once per frame
@@ -41,5 +48,6 @@ public class PlayerMovement : MonoBehaviour {
 
 	void MovePlayer(Vector3 direction){
 		this.transform.position += direction * speed * Time.deltaTime;
+		ClampPosition ();
 	}
 }

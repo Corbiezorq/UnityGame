@@ -19,7 +19,7 @@ public class LevelGenerator : MonoBehaviour {
 		GenerateMap(this.mapObjects[GetMapIndex(currentMap)]);
 	}
 		
-	int GetMapIndex(int id){
+	public int GetMapIndex(int id){
 		for (int i = 0; i < this.mapObjects.Length; i++) {
 			if (mapObjects[i].screenId == id) {
 				return i;
@@ -29,15 +29,23 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	public void GenerateMap(Map map){
-		GenerateBackgrounds(map.rows);
-		GenerateInteractables(map.interactables);
-		GenerateDoors(map.doors);
+		if (map.rows != null) {
+			GenerateBackgrounds(map.rows);
+		}
+		if (map.interactables != null) {
+			GenerateInteractables(map.interactables);
+		}
+		if (map.doors != null) {
+			GenerateDoors(map.doors);
+		}
 	}
 
 	void GenerateBackgrounds(Row[] background){
 		for (int i = 0; i < this.width; i++) {
 			for (int j = 0; j < this.height; j++) {
-				GenerateBackground (i, j, background[j].row[i]);
+				if (background [i].row [j] != null) {
+					GenerateBackground (i, j, background[j].row[i]);
+				}
 			}
 		}
 	}
@@ -45,10 +53,8 @@ public class LevelGenerator : MonoBehaviour {
 	void GenerateBackground(int x, int y, int cell){
 		foreach (IntToSprite backgroundMapping in backgroundMappings) {
 			if(backgroundMapping.index == cell){
-				Quaternion rotation;
-				float angle = 0f;
 				Vector2 position = new Vector2 (x, y);
-				rotation = Quaternion.Euler (0, 0, angle);
+				Quaternion rotation = Quaternion.identity;
 				Instantiate(backgroundMapping.sprite, position, rotation,transform);
 			}
 		}
@@ -56,29 +62,20 @@ public class LevelGenerator : MonoBehaviour {
 
 	void GenerateInteractables(Interactable[] interactables){
 		for (int i = 0; i < interactables.Length; i++) {
-			GenerateInteractable (interactables[i]);
+			if (interactables[i] != null) {
+				GenerateInteractable (interactables[i]);
+			}
 		}
 	}
 
 	void GenerateInteractable(Interactable interactable){
 		foreach (IntToSprite InteractableMapping in interactableMappings) {
 			if(InteractableMapping.index == interactable.obj){
-				float angle = 0f;
 				int x = interactable.x;
 				int y = interactable.y;
 				Vector2 position = new Vector2 (x, y);
-				if (InteractableMapping.sprite.name == "Door") {
-					if (x == 0) {
-						angle = 90f;
-					} else if (x == this.width - 1) {
-						angle = -90f;
-					} else if (y == 0) {
-						angle = 180f;
-					} else if (y == this.height - 1) {
-						angle = 0f;
-					} 
-				}
-				Quaternion rotation = Quaternion.Euler (0, 0, angle);
+
+				Quaternion rotation = Quaternion.identity;
 				Instantiate(InteractableMapping.sprite, position, rotation,transform);
 			}
 		}
@@ -86,7 +83,9 @@ public class LevelGenerator : MonoBehaviour {
 
 	void GenerateDoors(Door[] doors){
 		for (int i = 0; i < doors.Length; i++) {
-			GenerateDoor (doors[i]);
+			if (doors[i] != null) {
+				GenerateDoor (doors[i]);
+			}
 		}
 	}
 
@@ -98,22 +97,28 @@ public class LevelGenerator : MonoBehaviour {
 				int y = door.y;
 				Vector2 position = new Vector2 (x, y);
 				if (InteractableMapping.sprite.name == "Door") {
+					
+					DoorData doorScript = (InteractableMapping.sprite).GetComponent<DoorData>();
+					doorScript.x = door.x;
+					doorScript.y = door.y;
+					doorScript.map = door.map;
+					doorScript.target = door.target;
 					if (x == 0) {
+						doorScript.type = 1;
 						angle = 90f;
 					} else if (x == this.width - 1) {
+						doorScript.type = 2;
 						angle = -90f;
 					} else if (y == 0) {
+						doorScript.type = 3;
 						angle = 180f;
 					} else if (y == this.height - 1) {
+						doorScript.type = 4;
 						angle = 0f;
 					} 
+					Quaternion rotation = Quaternion.Euler (0, 0, angle);
+					Instantiate(InteractableMapping.sprite, position, rotation,transform);
 				}
-				Quaternion rotation = Quaternion.Euler (0, 0, angle);
-				DoorData doorScript = (InteractableMapping.sprite).GetComponent<DoorData>();
-				doorScript.x = door.x;
-				doorScript.y = door.y;
-				doorScript.target = door.target;
-				Instantiate(InteractableMapping.sprite, position, rotation,transform);
 			}
 		}
 	}
